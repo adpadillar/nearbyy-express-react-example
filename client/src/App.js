@@ -3,24 +3,26 @@ import { Message } from "./components/message";
 import "./App.css";
 
 function App() {
+  const [isLoading, setIsLoading] = useState(false); // loading state
   const [messages, setMessages] = useState([]); // the array of messages
   const [currentMessage, setCurrentMessage] = useState(""); // the user's input state when typing a message
 
   function handleSend() {
-    // copy the currentMessage into a new variable
-    // const oldMessage = currentMessage;
-
-    // messages = [1, 2, 3, 4]
-    // newArray = [...messages, 5]
-
     // add the currentMessage to the messages array
     // inmediately after the user sends the message
     setMessages([...messages, currentMessage]);
+    // messages = [1, 2, 3, 4]
+    // newArray = [...messages, 5]
+
     setCurrentMessage("");
+    setIsLoading(true);
 
     fetch(`http://localhost:4000/chat?message=${currentMessage}`)
       .then((res) => res.text())
-      .then((answer) => setMessages([...messages, currentMessage, answer]))
+      .then((answer) => {
+        setMessages([...messages, currentMessage, answer]);
+        setIsLoading(false);
+      })
       .catch((err) => console.error(err));
   }
 
@@ -38,6 +40,7 @@ function App() {
             {message}
           </Message>
         ))}
+        {isLoading && <p>Loading...</p>}
       </div>
       <input
         type="text"
