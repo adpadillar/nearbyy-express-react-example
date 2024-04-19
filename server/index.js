@@ -23,7 +23,7 @@ const openai = new OpenAI({
 app.get("/chat", async (req, res) => {
   const { message } = req.query;
 
-  const context = await nearbyy.queryDatabase({
+  const context = await nearbyy.semanticSearch({
     limit: 3,
     query: message,
   });
