@@ -34,7 +34,10 @@ app.get("/chat", async (req, res) => {
   });
 
   // we return an error message if the context retrieval is not successful
-  if (!context.success) return res.send("I'm sorry, I don't understand.");
+  if (!context.success) {
+    console.error(context.error);
+    return res.send("I'm sorry, I don't understand.");
+  }
 
   // This could be another way to only use the context if it is successful
   // if (context.success) {
@@ -43,7 +46,8 @@ app.get("/chat", async (req, res) => {
     messages: [
       {
         role: "system",
-        content: "You are a helpful assistant.",
+        content:
+          "If you are given relevant context, answer the users query with it. If the context does not include the answer, STATE that you don't have enough information to answer the query but still try to answer it without the context.",
       },
       {
         role: "system",
