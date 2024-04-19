@@ -34,7 +34,7 @@ function App() {
   return (
     <div>
       <h1>Chatbot</h1>
-      <div>
+      <div className="chat">
         {messages.map((message, index) => (
           <Message key={index} type={index % 2 === 1 ? "ai" : "human"}>
             {message}
